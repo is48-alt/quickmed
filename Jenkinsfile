@@ -1,35 +1,24 @@
-pipeline {
-    agent any
+node {
+    stage('Clone') {
+        // Clone and checkout the main branch
+        git 'https://github.com/is48-alt/quickmed.git'
+    }
 
-    stages {
-        stage('Clone') {
-            steps {
-                git 'https://github.com/your-username/quickmed.git'
-            }
+    stage('Install Backend Dependencies') {
+        dir('backend') {
+            sh 'npm install'
         }
+    }
 
-        stage('Install Backend') {
-            steps {
-                dir('backend') {
-                    sh 'npm install'
-                }
-            }
-        }
+    stage('Run Tests') {
+        echo 'No tests yet'
+    }
 
-        stage('Test') {
-            steps {
-                echo 'No tests yet, just simulating...'
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                dir('backend') {
-                    sh 'nohup npm start &'
-                }
-                echo 'App deployed. Open frontend/index.html in browser.'
-            }
+    stage('Start Server') {
+        dir('backend') {
+            sh 'nohup npm start &'
         }
     }
 }
+
 
