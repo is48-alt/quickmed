@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>QuickMed Search</title>
+</head>
+<body>
+  <h1>Find Medicines Nearby</h1>
+  <input type="text" id="searchBox" placeholder="Enter medicine name">
+  <button onclick="search()">Search</button>
+  <ul id="results"></ul>
+
+  <script>
+    async function search() {
+      const name = document.getElementById('searchBox').value;
+      const res = await fetch(`http://localhost:3000/api/search?name=${name}`);
+      const data = await res.json();
+
+      const list = document.getElementById('results');
+      list.innerHTML = "";
+      data.forEach(store => {
+        const li = document.createElement('li');
+        li.textContent = `${store.name} - has ${name}`;
+        list.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
+
